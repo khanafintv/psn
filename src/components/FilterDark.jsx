@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFilteredDark } from '../store/action-creators/colorActions';
 
 export const FilterDark = () => {
   const dispatch = useDispatch();
   const figures = useSelector((state) => state.figuresReducer.figures);
-  const filteredDark = useSelector((state) => state.colorReducer.filteredDark);
+
+  const [val, setVal] = useState('all');
 
   const changeDark = (e) => {
     let res = [];
@@ -13,7 +15,7 @@ export const FilterDark = () => {
     } else {
       res = figures.filter((i) => String(i.dark) === e.target.value);
     }
-
+    setVal(e.target.value);
     dispatch(fetchFilteredDark(res));
     //console.log(filteredDark);
   };
@@ -27,6 +29,7 @@ export const FilterDark = () => {
           id="all"
           name="dark-filter"
           onChange={changeDark}
+          checked={val === 'all'}
         />
         <label htmlFor="all">Все</label>
       </div>
